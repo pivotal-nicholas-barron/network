@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>A Social Network | Create Account</title>
+</head>
+<body>
+<div th:if="${error}">
+    Username is already in use
+</div>
+<form th:action="@{/createuser}" method="post" noteId="loginForm">
+    <div><label> Email Address: <input type="text" name="username" th:required="required"/> </label></div>
+    <div><label> Password: <input type="password" name="password" th:required="required"/> </label></div>
+    <div><input type="submit" value="Sign Up"/></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>A Social Network</title>
+</head>
+<body>
+<h1 th:align="center">A Social Network</h1>
+<hr/>
+<table>
+    <h2>My Friend'js Notes:</h2>
+    <tr th:each="friend:${userInfo}">
+        <div th:if="${!friend.getPending()}">
+            <div th:if="${friend.getEmail()}==${currentUser}">
+                <!--<td th:text="${friend.getFriendEmail()}"></td>-->
+                <a th:href="'/notes/'+${friend.getFriendEmail()}+'/'" th:text="${friend.getFriendEmail()}"></a>
+            </div>
+            <div th:unless="${friend.getEmail()}==${currentUser}">
+                <!--<td th:text="${friend.getEmail()}"></td>-->
+                <a th:href="'/notes/'+${friend.getEmail()}+'/'" th:text="${friend.getEmail()}"></a>
+            </div>
+        </div>
+        <!--/*@thymesVar id="friend" type="com.social.network.models.Friend"*/-->
+    </tr>
+</table>
+<table>
+    <!--/*@thymesVar id="userInfo" type="java.util.ArrayList<com.social.network.models.User>"*/-->
+    <h2>Pending Friend Requests:</h2>
+    <tr th:each="friend:${userInfo}">
+        <div th:if="${friend.getPending()}">
+            <div th:if="${friend.getEmail()}==${currentUser}">
+                <td th:text="${friend.getFriendEmail()}+' - Sent'"></td>
+            </div>
+            <div th:unless="${friend.getEmail()}==${currentUser}">
+                <td th:text="${friend.getEmail()}"></td>
+                <td>
+                    <form th:action="@{/acceptpending}" th:method="post" th:object="${friend}">
+                        <input type="hidden" th:name="friendEmail" th:value="${friend.getEmail()}"/>
+                        <input type="submit" th:value="Accept"/>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/rejectpending}" th:method="post" th:object="${friend}">
+                        <input type="hidden" th:name="friendEmail" th:value="${friend.getEmail()}"/>
+                        <input type="submit" th:value="Reject"/>
+                    </form>
+                </td>
+            </div>
+        </div>
+    </tr>
+</table>
+<a href="/addfriend">Add Friend</a>
+<br/>
+<h2>My Notes</h2>
+<form th:action="@{/savenote}" method="post">
+    <div>
+        <label> Note: <input type="content" name="content" th:required="required"/> </label>
+        <input type="hidden" name="datetime" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd-HH:mm:ss')}"/>
+        <input type="submit" value="Save Note"/>
+    </div>
+</form>
+<br/>
+<a th:href="'/notes/'+${currentUser}+'/'">View My Notes</a>
+<hr/>
+<form th:action="@{/logout}" method="post" th:align="center">
+    <input type="submit" value="Sign Out" align="center"/>
+</form>
+</body>
+</html>

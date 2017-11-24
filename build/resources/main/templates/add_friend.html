@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>A Social Network | Add Friend</title>
+</head>
+<body>
+<div th:if="${error}">
+    User is invalid
+</div>
+<form th:action="@{/addfriend}" method="post" noteId="loginForm">
+    <div><label> Email Address: <input type="text" name="friendemail" th:required="required"/> </label></div>
+    <div><input type="submit" value="Add"/></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>A Social Network | Notes</title>
+</head>
+<body>
+    <h1 th:text="${user}+'\'js Notes'">Notes</h1>
+    <table>
+        <tr th:each="note:${notes}">
+            <td><a th:href="'/notes/' + ${user} + '/' + ${note.getId()}" th:text="${note.getTimestampAsDateTime()}+' - '+${note.getContent()}"/></td>
+        </tr>
+    </table>
+
+    <a href="/">Home</a>
+</body>
+</html>
